@@ -1,0 +1,80 @@
+{% extends 'front/base.html' %}
+  {% block content %}
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="text-center">
+              <h1 class="text-center mt-5">
+                {{ blog.name }}
+              </h1>
+            </div>
+            <h5 class="text-muted font-weight-medium mb-3">World News</h5>
+          </div>
+        </div>
+        <div class="row">
+          {% for i in news_banner %}
+          <div class="col-lg-6  mb-5 mb-sm-2">
+            <div class="position-relative image-hover">
+              <a href="{% url 'blog_detail_url' i.pk %}"> <img
+                src="{{ i.img.last.img.url }}"
+                class="img-fluid"
+                alt="world-news"
+              /></a>
+              <span class="thumb-title">{{ i.category.name }}</span>
+            </div>
+            <h1 class="font-weight-600 mt-3">
+              {{ i.title }}
+            </h1>
+            <p class="fs-15 font-weight-normal">
+              {{ i.mini_text }}
+            </p>
+            <p class="text-color m-0 d-flex align-items-center">
+                  <span class="fs-10 mr-1">{{ i.updated }}</span><br>
+            </p>
+          </div>
+          {% endfor %}
+          <div class="col-lg-6  mb-5 mb-sm-2">
+            <div class="row">
+              {% for i in news_four %}
+              <div class="col-sm-6  mb-5 mb-sm-2">
+                <div class="position-relative image-hover">
+                  <a href="{% url 'blog_detail_url' i.pk %}"><img
+                    src="{{ i.img.last.img.url }}"
+                    class="img-fluid"
+                    alt="world-news"
+                  /></a>
+                  <span class="thumb-title">{{ i.category.name }}</span>
+                </div>
+                <h5 class="font-weight-600 mt-3">
+                  {{ i.title }}
+                </h5>
+                <p class="text-color m-0 d-flex align-items-center">
+                  <span class="fs-10 mr-1">{{ i.updated }}</span><br>
+                </p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-sm-12">
+            <h5 class="text-muted font-weight-medium mb-3">Popular News</h5>
+          </div>
+        </div>
+        <div class="row mb-4">
+          {% for i in news %}
+          <div class="col-sm-3  mb-5 mb-sm-2">
+            <div class="position-relative image-hover">
+              <a href="{% url 'blog_detail_url' i.pk %}"><img src="{{ i.img.last.img.url }}" class="img-fluid" alt="world-news"/></a>
+              <span class="thumb-title">{{ i.category.name }}</span>
+            </div>
+            <h5 class="font-weight-600 mt-3">
+              {{ i.title }}
+            </h5>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- container-scroller ends -->
+  {% endblock %}

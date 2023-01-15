@@ -1,0 +1,92 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% block content %}
+<div class="my-3 my-md-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card card-profile">
+            <div class="card-header" style="background-image: url({% static 'demo/photos/eberhard-grossgasteiger-311213-500.jpg' %})></div>
+            <div class="card-body text-center">
+              {% if user.avatar %}
+              <img class="card-profile-img" src="{{ user.avatar.url }}">
+              {% endif %}
+              <h3 class="mb-3">{{user.username}}</h3>
+              {% if user.first_name %}
+              <p class="mb-4">{{user.first_name}}</p>
+              {% endif %}
+              {% if user.last_name %}
+              <p class="mb-4">{{user.last_name}}</p>
+              {% endif %}
+              {% if user.email %}
+              <a class="mb-4" href="mailto:{{user.email}}">{{user.email}}</a> 
+              {% endif %}
+              <p class="mb-4">{{user.date_joined}}</p>
+              <div class="d-flex">
+                <a href="{% url 'user_update_url' user.pk %}">O`zgartirish</a>
+              </div>
+              <div class="d-flex">
+                <a href="{% url 'user_delete_url' user.pk %}">O'chirish</a>
+              </div>
+            </div>
+          </div>    
+        </div>
+        <div class="col-lg-8">
+          <div class="card">
+            <ul class="list-group card-list-group">
+              <li class="list-group-item py-5">
+                <div class="media">
+                  {% if user.avatar %}
+                  <div class="media-object avatar avatar-md mr-4" style="background-image: url({{ user.avatar.url }})"></div>
+                  {% endif %}
+                  <div class="media-body">
+                    <div class="media-heading">
+                      <small class="float-right text-muted"> <strong> Dasturga kirgann vaqti:</strong> 
+                        {{user.last_login}}</small>
+                      <h5>{{user.username}}</h5>
+                    </div>
+                    <div>{{user.bio}}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row mb-4">
+          {% for blog in  blogs %}
+              <div class="col-lg-3 col-sm-6 grid-margin mb-5 mb-sm-2">
+                <ul class="navbar-right">
+                    <li>
+                      <a href="{% url 'delete_blog_url' blog.pk %}">O'chirish</a>
+                    </li>
+                    <li>
+                      <a href="{%  url 'update_blog_url' blog.pk %}">O'zgartirish</a>
+                    </li>
+                </ul>
+                <div class="position-relative image-hover">
+                  <img
+                    src="{{ blog.img.last.img.url }}"
+                    class="img-fluid"
+                    alt="world-news"
+                  />
+                  <span class="thumb-title">{{ blog.category.name }}</span>
+                </div>
+                <h5 class="font-weight-bold mt-3">
+                  {{ blog.title }}
+                </h5>
+                <a href=" {% url 'blog_detail_url' blog.pk %}" class="font-weight-bold text-dark pt-2"
+                  >Read Article</a
+                >
+                <p class="text-color m-0 d-flex align-items-center">
+                  <span class="fs-10 mr-1">{{ blog.updated }}</span><br>
+                </p>
+              </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

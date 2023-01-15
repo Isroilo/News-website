@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>World News</title>
+    <!-- plugin css for this page -->
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'assets/vendors/aos/dist/aos.css/aos.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/owl.carousel/dist/assets/owl.carousel.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/owl.carousel/dist/assets/owl.theme.default.min.css' %}"
+    />
+    <!-- End plugin css for this page -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- endinject -->
+  </head>
+
+  <body>
+    <div class="container-scroller">
+      <div class="main-panel">
+        <header id="header">
+          <div class="container">
+            <!-- partial:partials/_navbar.html -->
+            <nav class="navbar navbar-expand-lg navbar-light">
+                  <a class="navbar-brand" href="#"
+                    ><img src="assets/images/logo.svg" alt=""
+                  /></a>
+              <div>
+                <div class="d-flex">
+                  <ul class="navbar-right">
+                    {% for i in region %}
+                    <li>
+                      <a href="{% url 'region_url' i.pk  %}">{{ i.name }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  <ul class="social-media">
+                    <li>
+                      <a href="https://www.instagram.com">
+                        <i class="mdi mdi-instagram"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://ru-ru.facebook.com">
+                        <i class="mdi mdi-facebook"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.youtube.com/">
+                        <i class="mdi mdi-youtube"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://ru.linkedin.com">
+                        <i class="mdi mdi-linkedin"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://twitter.com/">
+                        <i class="mdi mdi-twitter"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="navbar-bottom-menu">
+                <button
+                  class="navbar-toggler"
+                  type="button"
+                  data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                  class="navbar-collapse justify-content-center collapse"
+                  id="navbarSupportedContent"
+                >
+                  <ul
+                    class="navbar-nav d-lg-flex justify-content-between align-items-center"
+                  >
+                    <li>
+                      <button class="navbar-close">
+                        <i class="mdi mdi-close"></i>
+                      </button>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link active" href="{% url 'index_url' %}">Home</a>
+                    </li>
+                    {% for i in category %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'blog_url' i.pk %}">{{ i.name }}</a>
+                    </li>
+                    {% endfor %}
+                    <li class="nav-item">
+                      <form action="{% url 'search_url' %}" method="get" class="d-flex">
+                        {% csrf_token %}
+                        <input type="text" class="form-control" placeholder="Qidiruv..." name="title" required>
+                         <button  type="submit" class="d-flex"><i class="mdi mdi-magnify"></i></button>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+            <!-- partial -->
+          </div>
+        </header>
+           {% block content %}
+
+           {% endblock %}
+        <footer>
+          <div class="container">
+            </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="border-top"></div>
+              </div>
+              {% if user.is_authenticated %}
+              <div class="col-sm-3 col-lg-3">
+                <ul class="footer-vertical-nav">
+                  <li class="menu-title"><a href="{% url 'logout_url' %}">Chiqish</a></li>
+                </ul>
+              </div>
+              <div class="col-sm-3 col-lg-3">
+                <ul class="footer-vertical-nav">
+                  <li class="menu-title"><a href="{% url 'create_blog_url' %}">Xabar Qo'shish</a></li>
+                </ul>
+              </div>
+              <div class="col-sm-3 col-lg-3">
+                <ul class="footer-vertical-nav">
+                  <li class="menu-title"><a href="{% url 'user_detail_url' user.pk %}">Mening Bloglarim</a></li>
+                </ul>
+              </div>
+              {% if user.is_staff == True %}
+              <div class="col-sm-3 col-lg-3">
+                <ul class="footer-vertical-nav">
+                  <li class="menu-title"><a href="{% url 'users_url' %}">Obunachilar</a></li>
+                </ul>
+              </div>
+              {% endif %}
+              {% else %}
+              <div class="col-sm-3 col-lg-3">
+                <ul class="footer-vertical-nav">
+                  <li class="menu-title"><a href="{% url 'register_url' %}">Ro'yxatdan o'tish</a></li>
+                </ul>
+              </div>
+              <div class="col-sm-3 col-lg-3">
+                <ul class="footer-vertical-nav">
+                  <li class="menu-title"><a href="{% url 'login_url' %}">Kirish</a></li>
+                </ul>
+              </div>
+              {% endif %}
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div
+                  class="d-lg-flex justify-content-between align-items-center border-top mt-5 footer-bottom"
+                >
+                  <ul class="footer-horizontal-menu">
+                    <li><a href="#">Aloqalarimiz:</a></li>
+                    <li><a href="https://+998902057355">+998902057355</a></li>
+                    <li><a href="https://+998902067706">+998902067706</a></li>
+                  </ul>
+                  <p class="font-weight-medium">
+                    © 2022 <a href="{% url 'index_url' %}" target="_blank" class="text-dark">World News doimo eng so'nggi yangiliklar</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+        <!-- partial -->
+      </div>
+    </div>
+    <!-- inject:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- plugin js for this page -->
+    <script src="{% static 'assets/vendors/owl.carousel/dist/owl.carousel.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- Custom js for this page-->
+    <script src="{% static 'assets/js/demo.js' %}"></script>
+    <!-- End custom js for this page-->
+  </body>
+</html>

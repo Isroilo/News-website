@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en-us" >
+<head>
+<title>Log in | Django stylish app</title>
+
+<!-- Read css file from local static folder -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/logincss/base.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/logincss/login.css' %}">
+
+
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/logincss/base.css' %}">
+
+
+<meta name="robots" content="NONE,NOARCHIVE">
+
+
+</head>
+
+
+<body class=" login"
+  data-admin-utc-offset="0">
+
+<div class="picture_div" style="margin:30px auto; text-align:center;">
+     <h1> Welcome World News </h1>
+</div>
+
+<!-- Container -->
+<div id="container">
+
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+
+            <h1 id="site-name"><a href="">Please login</a></h1>
+
+        </div>
+    </div>
+
+    <!-- END Header -->
+
+    <!-- Content  of login page-->
+
+    <div id="content" class="colM">
+
+    {% if form.errors %}
+    <p class="errornote">
+        Please enter the correct username and password for a staff account. Note that both fields may be case-sensitive.
+    </p>
+    {% endif %}
+
+
+
+<div id="content-main">
+
+    <form method="post">
+     {% csrf_token %}
+      <div class="form-row">
+
+        <label class="required">Username:</label> <input type="text" name="username" maxlength="150" required>
+      </div>
+      <div class="form-row">
+
+        <label class="required">Password:</label> <input type="password" name="password" required>
+        <input type="password" name="next">
+      </div>
+
+
+      <div class="submit-row">
+        <label>&nbsp;</label><input type="submit" value="Log in">
+      </div>
+    </form>
+    <p style="margin:30px auto; text-align:center;" ><a href="{% url 'register_url'%}">Ro'yxatdan o'tish</a></p>
+</div>
+
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+{% extends 'front/base.html' %}
+
+{% block content %}
+<div class="my-3 my-md-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+        <script>
+          require(['jquery', 'selectize'], function ($, selectize) {
+              $(document).ready(function () {
+                  $('#input-tags').selectize({
+                      delimiter: ',',
+                      persist: false,
+                      create: function (input) {
+                          return {
+                              value: input,
+                              text: input
+                          }
+                      }
+                  });
+
+                  $('#select-beast').selectize({});
+
+                  $('#select-users').selectize({
+                      render: {
+                          option: function (data, escape) {
+                              return '<div>' +
+                                  '<span class="image"><img src="' + data.image + '" alt=""></span>' +
+                                  '<span class="title">' + escape(data.text) + '</span>' +
+                                  '</div>';
+                          },
+                          item: function (data, escape) {
+                              return '<div>' +
+                                  '<span class="image"><img src="' + data.image + '" alt=""></span>' +
+                                  escape(data.text) +
+                                  '</div>';
+                          }
+                      }
+                  });
+
+                  $('#select-countries').selectize({
+                      render: {
+                          option: function (data, escape) {
+                              return '<div>' +
+                                  '<span class="image"><img src="' + data.image + '" alt=""></span>' +
+                                  '<span class="title">' + escape(data.text) + '</span>' +
+                                  '</div>';
+                          },
+                          item: function (data, escape) {
+                              return '<div>' +
+                                  '<span class="image"><img src="' + data.image + '" alt=""></span>' +
+                                  escape(data.text) +
+                                  '</div>';
+                          }
+                      }
+                  });
+              });
+          });
+        </script>
+      </div>
+      <div class="col">
+        <form class="card" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <div class="card-body">
+            <h3 class="card-title">Blog yaratish</h3>
+            <div class="row">
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Sarlavha</label>
+                  <input type="text" class="form-control" placeholder="Sarlavha ...." name="title">
+                </div>
+                <p><select name="category" id="">
+                  {% for i in category %}
+                    <option value="{{ i.id }}">{{ i.name }}</option>
+                  {% endfor %}
+                </select></p>
+                <p><select name="region" id="">
+                  {% for i in region %}
+                    <option value="{{ i.id }}">{{ i.name }}</option>
+                  {% endfor %}
+                </select></p>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                  <label id="img-label" for="img-id">Rasm joylash</label>
+                  <input  class="form-control" id="img-id"  name="img" type="file" multiple hidden>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="form-group mb-0">
+                  <label class="form-label">Asosiy qismi</label>
+                  <textarea rows="5" class="form-control" placeholder="Blog haqida batafsil" name="mini_text"></textarea>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="form-group mb-0">
+                  <label class="form-label">Batafsil</label>
+                  <textarea rows="5" class="form-control" placeholder="Blog haqida batafsil" name="text"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-right">
+            <button type="submit" class="btn btn-primary">Saqlash</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

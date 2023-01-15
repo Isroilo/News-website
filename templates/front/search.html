@@ -1,0 +1,42 @@
+{% extends 'front/base.html'%}
+{% block content %}
+<div class="container-scroller">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="text-center">
+              <h1 class="text-center mt-5">
+                Qidiruv bo'yicha bular topildi
+              </h1>
+            </div>
+            <h5 class="text-muted font-weight-medium mb-3">World News</h5>
+          </div>
+        </div>
+        <div class="row mb-4">
+          {% for blog in  blogs %}
+              <div class="col-lg-3 col-sm-6 grid-margin mb-5 mb-sm-2">
+                <div class="position-relative image-hover">
+                  <img
+                    src="{{ blog.img.url  }}"
+                    class="img-fluid"
+                    alt="world-news"
+                  />
+                  <span class="thumb-title">{{ blog.category.name }}</span>
+                </div>
+                <h5 class="font-weight-bold mt-3">
+                  {{ blog.title }}
+                </h5>
+                <a href=" {% url 'blog_detail_url' blog.pk %}" class="font-weight-bold text-dark pt-2"
+                  >Read Article</a
+                >
+                <p class="text-color m-0 d-flex align-items-center">
+                  <span class="fs-10 mr-1">{{ blog.updated }}</span><br>
+                </p>
+              </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- container-scroller ends -->
+    <!-- partial:../partials/_footer.html -->
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'front/base.html' %}
+{% block content %}
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="news-post-wrapper">
+            <div class="news-post-wrapper-sm ">
+              <h1 class="text-center">
+                {{ blog.title }}
+              </h1>
+              <div class="text-center">
+                <a href="{% url 'blog_url' blog.category.pk %}" class="btn btn-dark font-weight-bold mb-4">{{ blog.category.name }}</a>
+              </div>
+              <p class="fs-15 d-flex justify-content-center align-items-center m-0">
+                <img src="{{ blog.img.last.img.url }}" alt="" class="img-xs img-rounded mr-2"/>
+              </p>
+              <p class="pt-4 pb-4">
+                {{ blog.mini_text }}
+              </p>
+            </div>
+            {% if user.is_authenticated %}
+            {% endif %}
+            {% for i in blog.img.all %}
+            <img
+              src="{{ i.img.url }}"
+              alt="news"
+              class="img-fluid mb-4"
+            />
+            {% endfor %}
+            <div class="news-post-wrapper-sm ">
+                {{ blog.updated }}
+              <p class="pt-4 pb-4 mb-4">
+                {{ blog.text }}
+              </p>
+            </div>
+
+        {% for comment in comments %}
+        <div class="col-8">
+            <div class="card">
+            {% if comment.reply_comment is not None %}
+            <div class="col-12">
+                <div class="card-body">
+                <article class="media" style="background-color: #F5F4F4 ;border-radius : 10px ;">
+                    {% if comment.user.avatar %}
+                    <div class="mr-3">
+                        <a href="{% url 'user_detail_url' comment.user.pk %}">
+                        <div class="avatar avatar-xl"><img style="border-radius : 50px ; width : 50px ; high : 50px;" src="{{ comment.user.avatar.url }}"></div>
+                        </a>
+                    </div>
+                    {% endif %}
+                  <div class="media-body">
+                    <div class="content">
+                    <p class="h5">
+                        from <a href="{% url 'user_detail_url' comment.user.pk %}">{{comment.user.username}} </a> reply to | <a href="{% url 'user_detail_url' comment.reply_comment.user.pk %}">{{comment.reply_comment}}</a>
+                    </p>
+                    <p class="h5">
+                    </p>
+                    <p>{{comment.text}}</p>
+                    </div>
+                  </div>
+                </article>
+            </div>
+            </div>
+            {% else %}
+            <div class="card-body">
+                <article class="media" style="background-color: #F5F4F4 ;border-radius : 10px ;">
+                    {% if comment.user.avatar %}
+                    <div class="mr-3">
+                        <a href="{% url 'user_detail_url' comment.user.pk %}">
+                        <div class="avatar avatar-xl"><img style="border-radius : 50px ; width : 50px ; high : 50px;" src="{{ comment.user.avatar.url }}"></div>
+                        </a>
+                    </div>
+                    {% endif %}
+                  <div class="media-body">
+                    <div class="content">
+                    <a href="{% url 'user_detail_url' comment.user.pk %}">
+                    <p class="h5">
+                        {{comment.user.username}}
+                    </p>
+                    </a>
+                    <p>{{comment.text}}</p>
+                    {% if user.id == blog.user.id %}
+                    <span>
+                        <form action="{% url 'reply_comment_url' blog.pk %}" method="post">
+                            {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="row gutters-xs">
+                                        <div class="col">
+                                            <input type="text" class="form-control" placeholder="Javob yozing" name="izox" required>
+                                            <input type="hidden" class="form-control" value="{{ comment.id }}" name="reply_id" required>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-secondary" type="submit">Saqlash</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
+                    </span>
+                    {% endif %}
+                    </div>
+                  </div>
+                </article>
+            </div>
+            {% endif%}
+            </div>
+        </div>
+        {% endfor %}
+                <div class="col-12">
+                    <form  action="{% url 'create_comment_url' blog.pk %}" method="post" >
+                        {% csrf_token %}
+                    <div class="form-group">
+                        <label class="form-label">Izox</label>
+                        <div class="row gutters-xs">
+                                <div class="col">
+                                <input type="text" class="form-control" placeholder="Izox qoldiring" name="izox" required>
+                                </div>
+                        <div class="col">
+                        <button class="btn btn-secondary" type="submit">Saqlash</button>
+                        </div>
+                        </div><br><br>
+                    </div>
+                    </form>
+                </div>
+        </div>
+              <h1 class="font-weight-600 text-center mb-5">
+                Sizga yoqishi mumkun
+              </h1>
+              {% for i in news %}
+              {% if i.id != blog.id %}
+              <div class="border-top py-5">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="position-relative image-hover">
+                      <a href="{% url 'blog_detail_url' i.pk %}"><img src="{{ i.img.url }}" alt="news" class="img-fluid"/></a>
+                      <span class="thumb-title">{{ i.category.name }}</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="position-relative image-hover">
+                      <h1 class="font-weight-600">
+                        {{ i.title }}
+                      </h1>
+                      <p class="fs-15">{{ i.user.username}} | {{ i.updated }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- container-scroller ends -->
+    <!-- partial:../partials/_footer.html -->
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'front/base.html' %}
+{% block content %}
+        <div class="container">
+          <div class="banner-top-thumb-wrap">
+            <div class="d-lg-flex justify-content-between align-items-center">
+              {% for i in small_news %}
+              <div class="d-flex justify-content-between  mb-3 mb-lg-0">
+                <div>
+                  <a href="{% url 'blog_detail_url' i.pk %}">
+                  <img src="{{ i.img.last.img.url }}" alt="thumb" class="banner-top-thumb"/>
+                  </a>
+                </div>
+                <h5 class="m-0 font-weight-bold">{{ i.title }}</h5>
+              </div>
+              {% endfor %}
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="owl-carousel owl-theme" id="main-banner-carousel">
+                <div class="item">
+                  <div class="carousel-content-wrapper mb-2">
+                    <div class="carousel-content">
+                      <h1 class="font-weight-bold">
+                       {{ last_news.title }}
+                      </h1>
+                      <h5 class="font-weight-normal  m-0">
+                        {{ last_news.category.name }}
+                      </h5>
+                      <p class="text-color m-0 pt-2 d-flex align-items-center">
+                        <span class="fs-10 mr-1">{{ last_news.updated }}</span>
+                      </p>
+                    </div>
+                    <div class="carousel-image">
+                      {% if last_news.id >= 0 %}
+                      <a href="{% url 'blog_detail_url' last_news.pk %}">
+                        <img src="{{ last_news.img.last.img.url }}" alt="1" />
+                      </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <h2>Tavsiya Qilamiz</h2>
+                {% for i in news %}
+                <div class="col-sm-12">
+                  <div class="py-3 border-bottom">
+                    <div class="d-flex align-items-center pb-2">
+                      <span class="fs-12 text-muted">{{ i.category.name }}</span>
+                    </div>
+                    <p class="fs-14 m-0 font-weight-medium line-height-sm">
+                      <a href="{% url 'blog_detail_url' i.pk %}"><h4>{{ i.title }}</h4></a>
+                    </p>
+                    <span class="fs-12 text-muted">{{ i.updated }}</span>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+          <div class="world-news">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="d-flex position-relative  float-left">
+                  <h3 class="section-title">World News</h3>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              {% for i in  blogs %}
+              <div class="col-lg-3 col-sm-6 grid-margin mb-5 mb-sm-2">
+                <div class="position-relative image-hover">
+                  <img
+                    src="{{ i.img.last.img.url }}"
+                    class="img-fluid"
+                    alt="world-news"
+                  />
+                  <span class="thumb-title">{{ i.category.name }}</span>
+                </div>
+                <h5 class="font-weight-bold mt-3">
+                  {{ i.title }}
+                </h5>
+                <a href=" {% url 'blog_detail_url' i.pk %}" class="font-weight-bold text-dark pt-2"
+                  >Read Article</a
+                >
+                <p class="text-color m-0 d-flex align-items-center">
+                  <span class="fs-10 mr-1">{{ i.updated }}</span><br>
+                </p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- main-panel ends -->
+        <!-- container-scroller ends -->
+
+        <!-- partial:partials/_footer.html -->
+{% endblock %}
